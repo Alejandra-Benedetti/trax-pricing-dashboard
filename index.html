@@ -1,208 +1,121 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eficacia | TraxPricing Vision Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --eficacia-azul: #0055A4;
-            --eficacia-celeste: #4A90E2;
-            --bg-deep: #05070a;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top right, #001f3f, var(--bg-deep));
-            color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Efecto Glassmorphism estilo Apple */
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.06);
-            border-color: var(--eficacia-celeste);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Navbar Sticky Inteligente */
-        .nav-blur {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(5, 7, 10, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Animaciones */
-        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        :root { --eficacia-azul: #0055A4; --eficacia-celeste: #4A90E2; }
+        body { background-color: #F8FAFC; color: #1E293B; font-family: 'Inter', sans-serif; }
+        .nav-eficacia { background: white; border-bottom: 2px solid var(--eficacia-azul); position: sticky; top: 0; z-index: 100; }
+        .glass-panel { background: white; border: 1px solid #E2E8F0; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); transition: 0.3s; }
+        .glass-panel:hover { border-color: var(--eficacia-azul); transform: translateY(-3px); }
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s ease-out; }
-
-        /* Estilo de botones Amazon Premium */
-        .btn-premium {
-            background: linear-gradient(135deg, var(--eficacia-azul), var(--eficacia-celeste));
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 85, 164, 0.3);
-        }
-        .btn-premium:hover {
-            filter: brightness(1.1);
-            transform: scale(1.02);
-            box-shadow: 0 8px 20px rgba(0, 85, 164, 0.4);
-        }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-eficacia { background: var(--eficacia-azul); color: white; border-radius: 12px; transition: 0.3s; }
+        .btn-eficacia:hover { background: var(--eficacia-celeste); box-shadow: 0 5px 15px rgba(0,85,164,0.3); }
     </style>
 </head>
 <body>
 
-    <nav class="nav-blur px-8 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-10">
-            <div class="flex flex-col">
-                <span class="text-2xl font-black tracking-tighter uppercase text-white">eficacia</span>
-                <span class="text-[10px] tracking-[0.3em] text-blue-400 font-bold uppercase">TraxPricing</span>
-            </div>
-            
-            <div class="hidden md:flex space-x-8 text-xs font-semibold uppercase tracking-widest text-white/60">
-                <button onclick="switchTab('dashboard')" class="hover:text-white transition">Dashboard</button>
-                <button onclick="switchTab('ia')" class="hover:text-white transition">Analizador IA</button>
-                <button onclick="switchTab('data')" class="hover:text-white transition">Explorador</button>
+    <nav class="nav-eficacia px-10 py-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-12">
+            <span class="text-3xl font-black tracking-tighter uppercase text-[#0055A4]">eficacia</span>
+            <div class="flex gap-8 text-sm font-bold uppercase tracking-widest">
+                <button onclick="switchTab('global')" class="hover:text-[#0055A4] transition border-b-2 border-transparent hover:border-[#0055A4] pb-1">Eficacia (Global)</button>
+                <button onclick="switchTab('individual')" class="hover:text-[#0055A4] transition border-b-2 border-transparent hover:border-[#0055A4] pb-1">Dashboard (Analizador)</button>
             </div>
         </div>
-
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                <span class="text-[10px] font-bold text-green-400 uppercase tracking-widest">Ollama Online</span>
-            </div>
-            <div class="h-10 w-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-blue-400">
-                <i class="bi bi-cpu-fill"></i>
-            </div>
+        <div class="flex items-center gap-4">
+            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 uppercase">Status: Científico 1.0</span>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
         
-        <section id="dashboard" class="tab-content active">
-            <header class="mb-12 fade-in">
-                <h1 class="text-6xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-blue-500">
-                    Panel Ejecutivo
-                </h1>
-                <p class="text-white/40 text-lg max-w-2xl font-light">Análisis inteligente de precios y detección de productos mediante visión artificial local.</p>
-            </header>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                <div class="glass p-8">
-                    <p class="text-white/30 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Imágenes Dataset</p>
-                    <h2 class="text-4xl font-bold">651</h2>
-                </div>
-                <div class="glass p-8">
-                    <p class="text-white/30 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Productos Totales</p>
-                    <h2 class="text-4xl font-bold">15,064</h2>
-                </div>
-                <div class="glass p-8">
-                    <p class="text-white/30 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Precio Promedio</p>
-                    <h2 class="text-4xl font-bold text-blue-400">$76.80</h2>
-                </div>
-                <div class="glass p-8 border-l-4 border-blue-500">
-                    <p class="text-white/30 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Complejidad Máxima</p>
-                    <h2 class="text-4xl font-bold">92 <span class="text-sm font-light text-white/30">uds.</span></h2>
-                </div>
+        <section id="global" class="tab-content active">
+            <div class="mb-10 text-center">
+                <h1 class="text-4xl font-black text-slate-800">Análisis General del Dataset</h1>
+                <p class="text-slate-500">Perspectiva macro de los 651 archivos de visión artificial.</p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass p-10">
-                    <h3 class="text-xl font-bold mb-8 flex items-center gap-3">
-                        <i class="bi bi-bar-chart-fill text-blue-500"></i> Top Estanterías
-                    </h3>
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between text-xs mb-2 text-white/60"><span>0073.jpg</span><span>92 Prod.</span></div>
-                            <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]" style="width: 100%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-2 text-white/60"><span>0354.jpg</span><span>90 Prod.</span></div>
-                            <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full opacity-80" style="width: 95%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-2 text-white/60"><span>0395.jpg</span><span>87 Prod.</span></div>
-                            <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full opacity-60" style="width: 85%"></div></div>
-                        </div>
-                    </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 text-center border-l-8 border-[#0055A4]">
+                    <i class="bi bi-images text-3xl text-[#0055A4] mb-2"></i>
+                    <p class="text-xs font-bold text-slate-400 uppercase">Volumen Datos</p>
+                    <h2 class="text-4xl font-bold">15,064 <span class="text-lg">items</span></h2>
                 </div>
-
-                <div class="glass p-10 flex flex-col justify-center relative overflow-hidden">
-                    <div class="z-10">
-                        <h3 class="text-3xl font-bold mb-4">Análisis Predictivo</h3>
-                        <p class="text-white/50 text-sm leading-relaxed mb-6">El modelo ha detectado que el 64% de las etiquetas se encuentran en zonas de alta rotación. La precisión del modelo Qwen3-VL ha mejorado el reconocimiento en un 12%.</p>
-                        <button onclick="switchTab('ia')" class="btn-premium px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest">Abrir Laboratorio IA</button>
-                    </div>
-                    <i class="bi bi-shield-check absolute -right-10 -bottom-10 text-[12rem] text-white/5"></i>
                 </div>
-            </div>
         </section>
 
-        <section id="ia" class="tab-content">
-            <div class="max-w-3xl mx-auto py-10">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold mb-4">Analizador Vision</h2>
-                    <p class="text-white/40">Inyecta una imagen del dataset para procesar con IA local.</p>
-                </div>
+        <section id="individual" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 
-                <div class="glass p-12 text-center border-2 border-dashed border-white/10">
-                    <div class="w-20 h-20 bg-blue-500/10 rounded-3xl flex items-center justify-center mx-auto mb-8 rotate-3 shadow-xl">
-                        <i class="bi bi-search text-3xl text-blue-400"></i>
+                <div class="glass-panel p-8">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i class="bi bi-folder-fill text-[#0055A4]"></i> Selección de Imagen
+                    </h3>
+                    <div class="border-2 border-dashed border-slate-200 rounded-2xl p-10 text-center hover:border-[#4A90E2] transition cursor-pointer mb-6">
+                        <input type="file" id="fileInput" class="hidden" onchange="previewImage(event)">
+                        <label for="fileInput" class="cursor-pointer">
+                            <i class="bi bi-cloud-arrow-up text-5xl text-slate-300"></i>
+                            <p class="mt-4 text-slate-500 font-medium">Click para buscar imagen en tu equipo</p>
+                        </label>
                     </div>
-                    <input type="text" placeholder="ID de Imagen (ej: 0073.jpg)" 
-                           class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl mb-8 text-center text-xl focus:ring-2 focus:ring-blue-500 focus:bg-white/10 outline-none transition-all">
-                    <button class="btn-premium w-full py-5 rounded-2xl font-bold text-lg shadow-2xl">
-                        EJECUTAR RECONOCIMIENTO
-                    </button>
-                    <p class="mt-6 text-[10px] text-white/30 uppercase tracking-[0.3em]">Procesamiento vía Ollama • Modelo Qwen3 2B</p>
+                    <div id="previewContainer" class="hidden">
+                        <img id="imagePreview" src="#" class="w-full rounded-xl shadow-lg border">
+                    </div>
                 </div>
+
+                <div class="glass-panel p-8 bg-[#F1F5F9]">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i class="bi bi-cpu-fill text-[#0055A4]"></i> EDA Científico Avanzado
+                    </h3>
+                    <div id="edaResults" class="space-y-4">
+                        <p class="text-slate-400 italic">Selecciona una imagen para realizar el análisis de píxeles y textura...</p>
+                    </div>
+                    
+                    <button class="btn-eficacia w-full py-4 mt-8 font-bold text-sm uppercase tracking-widest">
+                        Analizar con IA (Ollama)
+                    </button>
+                </div>
+
             </div>
         </section>
 
     </main>
 
     <script>
-        // Función para navegación interactiva sin recargar
         function switchTab(id) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Animación de entrada estilo Apple
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 1.2s ease-out';
-                document.body.style.opacity = '1';
-            }, 50);
-        });
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                document.getElementById('previewContainer').classList.remove('hidden');
+                
+                // Simulación de resultados de EDA Científico
+                document.getElementById('edaResults').innerHTML = `
+                    <div class="flex justify-between p-3 bg-white rounded-lg shadow-sm">
+                        <span class="font-bold">Entropía de Imagen:</span> <span class="text-blue-600 font-mono">7.42 bits/pixel</span>
+                    </div>
+                    <div class="flex justify-between p-3 bg-white rounded-lg shadow-sm">
+                        <span class="font-bold">Contraste (Std Dev):</span> <span class="text-blue-600 font-mono">48.12</span>
+                    </div>
+                    <div class="flex justify-between p-3 bg-white rounded-lg shadow-sm">
+                        <span class="font-bold">Nivel de Ruido:</span> <span class="text-red-500 font-mono">Bajo (12.4 var)</span>
+                    </div>
+                `;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
     </script>
-
 </body>
 </html>
